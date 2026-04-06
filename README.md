@@ -42,8 +42,8 @@ Built with Python · Playwright · pytest.
 ### 1. Clone and set up
 
 ```bash
-git clone https://github.com/yourusername/qa-automation-framework.git
-cd qa-automation-framework
+git clone https://github.com/yourusername/FiveNine-QA.fw
+cd FiveNine-QA.fw
 
 python -m venv venv
 
