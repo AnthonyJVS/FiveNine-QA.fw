@@ -1,0 +1,9 @@
+# ──────────────────────────────────────────────
+# QA Dashboard — Optional Dependencies
+# ──────────────────────────────────────────────
+# Install with: pip install -r requirements-dashboard.txt
+#
+# Note: Streamlit may require Microsoft C++ Build Tools on Windows.
+# Download from: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+streamlit>=1.40.0

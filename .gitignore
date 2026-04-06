@@ -1,0 +1,91 @@
+# ──────────────────────────────────────────────
+# Python
+# ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+*.whl
+*.pyo
+*.pyd
+
+# ──────────────────────────────────────────────
+# Virtual environments
+# ──────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+.env
+
+# ──────────────────────────────────────────────
+# IDE / Editor
+# ──────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+.spyderproject
+.spyproject
+
+# ──────────────────────────────────────────────
+# Test artifacts (generated at runtime)
+# ──────────────────────────────────────────────
+reports/
+screenshots/
+logs/
+allure-results/
+allure-report/
+.pytest_cache/
+htmlcov/
+*.log
+test-results/
+trace.zip
+
+# ──────────────────────────────────────────────
+# Environment files (keep templates, ignore actuals)
+# ──────────────────────────────────────────────
+config/environments/.env.local
+.env.local
+.env.*.local
+
+# ──────────────────────────────────────────────
+# Docker
+# ──────────────────────────────────────────────
+.docker/
+docker-compose.override.yml
+
+# ──────────────────────────────────────────────
+# Playwright
+# ──────────────────────────────────────────────
+playwright-report/
+blob-report/
+test-results/
+
+# ──────────────────────────────────────────────
+# Coverage
+# ──────────────────────────────────────────────
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+
+# ──────────────────────────────────────────────
+# OS
+# ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+Icon?
+._*

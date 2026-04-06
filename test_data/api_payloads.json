@@ -1,0 +1,47 @@
+{
+    "search_queries": {
+        "valid": [
+            {"query": "top", "description": "Search for tops"},
+            {"query": "tshirt", "description": "Search for t-shirts"},
+            {"query": "dress", "description": "Search for dresses"},
+            {"query": "jean", "description": "Search for jeans"}
+        ],
+        "empty_result": [
+            {"query": "xyznonexistent123", "description": "Non-existent product"},
+            {"query": "!@#$%", "description": "Special characters only"}
+        ]
+    },
+    "create_user_payload": {
+        "name": "API Test User",
+        "email": "api_test_{timestamp}@qa.com",
+        "password": "ApiTestPass123!",
+        "title": "Mr",
+        "birth_date": "15",
+        "birth_month": "6",
+        "birth_year": "1990",
+        "firstname": "API",
+        "lastname": "Tester",
+        "company": "QA Corp",
+        "address1": "123 Test Street",
+        "address2": "Suite 456",
+        "country": "United States",
+        "zipcode": "10001",
+        "state": "New York",
+        "city": "New York",
+        "mobile_number": "+1234567890"
+    },
+    "contact_form": {
+        "valid": {
+            "name": "Test User",
+            "email": "testcontact@qa.com",
+            "subject": "QA Framework Test",
+            "message": "This is an automated test message from the QA framework."
+        },
+        "missing_fields": {
+            "name": "",
+            "email": "",
+            "subject": "",
+            "message": ""
+        }
+    }
+}

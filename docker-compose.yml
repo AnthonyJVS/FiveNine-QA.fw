@@ -1,0 +1,69 @@
+# ──────────────────────────────────────────────
+# QA Automation Framework — Docker Compose
+# ──────────────────────────────────────────────
+# Provides easy test execution and report generation.
+#
+# Usage:
+#   docker compose up tests           # Run all tests
+#   docker compose up smoke-tests     # Run smoke tests only
+#   docker compose up api-tests       # Run API tests only
+
+services:
+  # Full test suite
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qa-framework-tests
+    environment:
+      - ENV=staging
+      - HEADLESS=true
+      - BROWSER=chromium
+    volumes:
+      - ./reports:/app/reports
+      - ./screenshots:/app/screenshots
+      - ./logs:/app/logs
+      - ./allure-results:/app/allure-results
+    command: >
+      pytest tests/ -v
+      --html=reports/report.html
+      --self-contained-html
+      --alluredir=allure-results
+
+  # Smoke tests only (fast CI sanity check)
+  smoke-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qa-framework-smoke
+    environment:
+      - ENV=staging
+      - HEADLESS=true
+    volumes:
+      - ./reports:/app/reports
+      - ./screenshots:/app/screenshots
+      - ./logs:/app/logs
+      - ./allure-results:/app/allure-results
+    command: >
+      pytest tests/ -m smoke -v
+      --html=reports/smoke-report.html
+      --self-contained-html
+      --alluredir=allure-results
+
+  # API tests only (no browser needed)
+  api-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qa-framework-api
+    environment:
+      - ENV=staging
+    volumes:
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - ./allure-results:/app/allure-results
+    command: >
+      pytest tests/api/ -v
+      --html=reports/api-report.html
+      --self-contained-html
+      --alluredir=allure-results

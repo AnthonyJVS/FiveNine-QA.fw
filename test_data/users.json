@@ -1,0 +1,37 @@
+{
+    "valid_user": {
+        "email": "testuser_framework@qa.com",
+        "password": "SecurePass123!",
+        "name": "QA Test User"
+    },
+    "invalid_credentials": [
+        {
+            "email": "nonexistent@fake.com",
+            "password": "wrongpassword",
+            "description": "Non-existent user"
+        },
+        {
+            "email": "badformat",
+            "password": "test123",
+            "description": "Invalid email format"
+        },
+        {
+            "email": "",
+            "password": "",
+            "description": "Empty credentials"
+        }
+    ],
+    "registration_required_fields": [
+        "name",
+        "email",
+        "password",
+        "firstname",
+        "lastname",
+        "address1",
+        "country",
+        "state",
+        "city",
+        "zipcode",
+        "mobile_number"
+    ]
+}
