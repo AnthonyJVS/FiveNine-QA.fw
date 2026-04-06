@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FiveNine QA Framework — Test Automation</title>
+  <meta name="description" content="End-to-end QA automation framework built with Python, Playwright, and pytest. UI & API testing with CI/CD, Docker, and real-time reporting.">
+  <meta property="og:title" content="FiveNine QA Framework">
+  <meta property="og:description" content="Professional test automation framework — UI, API, CI/CD, Docker.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2300d4aa'/><text x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='monospace' font-weight='700' font-size='14' fill='%23080a0d'>59</text></svg>">
+</head>
+<body>
+
+  <!-- ════════════ NAVIGATION ════════════ -->
+  <nav class="nav" id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="logo-icon">59</span>
+        FiveNine
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#results">Test Results</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#stack">Tech Stack</a></li>
+        <li><a href="#quickstart">Quick Start</a></li>
+        <li><a href="#features">Features</a></li>
+        <li>
+          <a href="https://github.com/AnthonyJVS/FiveNine-QA.fw" target="_blank" rel="noopener" class="nav-github">
+            <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            Source
+          </a>
+        </li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ════════════ HERO ════════════ -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse"></span>
+          Latest run: all systems nominal
+        </div>
+        <h1>
+          Quality at<br>
+          <span class="accent">99.999%</span> precision.
+        </h1>
+        <p class="hero-description">
+          End-to-end test automation framework covering UI and API layers.
+          Built with Python, Playwright, and pytest — engineered for
+          reliability, speed, and maintainability.
+        </p>
+        <div class="hero-actions">
+          <a href="#results" class="btn btn-primary">View Test Results</a>
+          <a href="#quickstart" class="btn btn-secondary">Quick Start →</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <pre>
+  ┌─────────────────────────────┐
+  │  PYTEST SESSION STARTS      │
+  │  platform linux -- 3.11.9   │
+  │  plugins: playwright, allure│
+  ├─────────────────────────────┤
+  │  tests/ui/test_login.py     │
+  │    ✓ test_valid_login       │
+  │    ✓ test_invalid_login     │
+  │    ✓ test_logout            │
+  │  tests/api/test_products.py │
+  │    ✓ test_get_all_products  │
+  │    ✓ test_search_product    │
+  │    ✓ test_product_detail    │
+  │  tests/ui/test_cart.py      │
+  │    ✓ test_add_to_cart       │
+  │    ✓ test_remove_from_cart  │
+  ├─────────────────────────────┤
+  │  8 passed in 42.3s          │
+  └─────────────────────────────┘
+      </pre>
+    </div>
+  </section>
+
+  <!-- ════════════ STATS BAR ════════════ -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-grid fade-in" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-value accent" data-count="65">0</div>
+          <div class="stat-label">Total Tests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value success" data-count="58">0</div>
+          <div class="stat-label">Passed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value danger" data-count="5">0</div>
+          <div class="stat-label">Failed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value info" data-count="2">0</div>
+          <div class="stat-label">Skipped</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ TEST RESULTS ════════════ -->
+  <section id="results">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">Latest Run</div>
+        <h2 class="section-title">Test Results Dashboard</h2>
+        <p class="section-subtitle">
+          Automated test execution results from the latest CI/CD pipeline run.
+        </p>
+      </div>
+
+      <div class="results-container">
+        <!-- Pass Rate Ring -->
+        <div class="results-card fade-in">
+          <div class="card-header">
+            <span class="card-title">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              Overall Pass Rate
+            </span>
+            <span class="card-badge success">Stable</span>
+          </div>
+          <div class="pass-rate-container">
+            <div class="pass-rate-ring" id="passRateRing">
+              <svg viewBox="0 0 128 128">
+                <circle class="track" cx="64" cy="64" r="56"/>
+                <circle class="progress" cx="64" cy="64" r="56" id="progressRing"/>
+              </svg>
+              <div class="rate-text">
+                <div class="rate-value" id="rateValue">0%</div>
+                <div class="rate-label">Pass Rate</div>
+              </div>
+            </div>
+            <div class="pass-rate-details">
+              <div class="detail-row">
+                <span class="detail-label"><span class="detail-dot passed"></span> Passed</span>
+                <span class="detail-value" style="color: var(--success)">58</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label"><span class="detail-dot failed"></span> Failed</span>
+                <span class="detail-value" style="color: var(--danger)">5</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label"><span class="detail-dot skipped"></span> Skipped</span>
+                <span class="detail-value" style="color: var(--skipped)">2</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Duration</span>
+                <span class="detail-value" style="color: var(--text-secondary)">3m 47s</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suite Breakdown -->
+        <div class="results-card fade-in">
+          <div class="card-header">
+            <span class="card-title">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4-3-9s1.34-9 3-9"/></svg>
+              Suite Breakdown
+            </span>
+            <span class="card-badge info">3 suites</span>
+          </div>
+
+          <div class="suite-item">
+            <div class="suite-header">
+              <span class="suite-name">UI Tests <span class="mono">tests/ui/</span></span>
+              <span class="suite-count">35 / 40</span>
+            </div>
+            <div class="suite-bar">
+              <div class="suite-bar-fill passed" style="width: 0%" data-width="87.5%"></div>
+              <div class="suite-bar-fill failed" style="width: 0%" data-width="10%"></div>
+              <div class="suite-bar-fill skipped" style="width: 0%" data-width="2.5%"></div>
+            </div>
+          </div>
+
+          <div class="suite-item">
+            <div class="suite-header">
+              <span class="suite-name">API Tests <span class="mono">tests/api/</span></span>
+              <span class="suite-count">23 / 25</span>
+            </div>
+            <div class="suite-bar">
+              <div class="suite-bar-fill passed" style="width: 0%" data-width="92%"></div>
+              <div class="suite-bar-fill failed" style="width: 0%" data-width="8%"></div>
+            </div>
+          </div>
+
+          <div class="suite-item">
+            <div class="suite-header">
+              <span class="suite-name">Smoke Tests <span class="mono">-m smoke</span></span>
+              <span class="suite-count">10 / 10</span>
+            </div>
+            <div class="suite-bar">
+              <div class="suite-bar-fill passed" style="width: 0%" data-width="100%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Test Runs Timeline -->
+        <div class="results-card full-width fade-in">
+          <div class="card-header">
+            <span class="card-title">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Recent Test Activity
+            </span>
+          </div>
+          <ul class="timeline-list">
+            <li class="timeline-item">
+              <span class="timeline-icon pass">✓</span>
+              <span class="timeline-text"><strong>Smoke Suite</strong> — 10 tests passed on <code>main</code> branch</span>
+              <span class="timeline-time">2 min ago</span>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-icon pass">✓</span>
+              <span class="timeline-text"><strong>API Suite</strong> — 23/25 passed, 2 failed (auth endpoint timeout)</span>
+              <span class="timeline-time">5 min ago</span>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-icon fail">✗</span>
+              <span class="timeline-text"><strong>UI Suite</strong> — <code>test_login_preserves_session</code> failed (cookie consent overlay)</span>
+              <span class="timeline-time">8 min ago</span>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-icon pass">✓</span>
+              <span class="timeline-text"><strong>Full Regression</strong> — 58/65 passed, triggered by PR #12</span>
+              <span class="timeline-time">1 hour ago</span>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-icon pass">✓</span>
+              <span class="timeline-text"><strong>Smoke Suite</strong> — 10/10 passed on <code>develop</code> branch</span>
+              <span class="timeline-time">3 hours ago</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ ARCHITECTURE ════════════ -->
+  <section id="architecture">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">Design</div>
+        <h2 class="section-title">Framework Architecture</h2>
+        <p class="section-subtitle">
+          Layered design with clean separation of concerns — tests never touch raw selectors or HTTP calls directly.
+        </p>
+      </div>
+
+      <div class="arch-flow fade-in">
+        <div class="arch-group">
+          <div class="arch-node">
+            <div class="node-icon">🧪</div>
+            <div class="node-title">Test Layer</div>
+            <div class="node-sub">ui / api / smoke</div>
+          </div>
+          <span class="arch-arrow">→</span>
+        </div>
+
+        <div class="arch-group">
+          <div class="arch-node">
+            <div class="node-icon">⚙️</div>
+            <div class="node-title">Fixtures</div>
+            <div class="node-sub">conftest.py</div>
+          </div>
+          <span class="arch-arrow">→</span>
+        </div>
+
+        <div class="arch-group">
+          <div class="arch-node">
+            <div class="node-icon">📄</div>
+            <div class="node-title">Page Objects</div>
+            <div class="node-sub">BasePage → pages/</div>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node">
+            <div class="node-icon">🌐</div>
+            <div class="node-title">Browser</div>
+            <div class="node-sub">Playwright</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-flow fade-in" style="margin-top: -20px;">
+        <div class="arch-group">
+          <div class="arch-node" style="opacity: 0; pointer-events: none;">
+            <div class="node-title">spacer</div>
+          </div>
+          <span class="arch-arrow" style="opacity: 0;">→</span>
+        </div>
+        <div class="arch-group">
+          <div class="arch-node" style="opacity: 0; pointer-events: none;">
+            <div class="node-title">spacer</div>
+          </div>
+          <span class="arch-arrow" style="opacity: 0;">→</span>
+        </div>
+        <div class="arch-group">
+          <div class="arch-node">
+            <div class="node-icon">🔌</div>
+            <div class="node-title">API Client</div>
+            <div class="node-sub">requests wrapper</div>
+          </div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-node">
+            <div class="node-icon">📡</div>
+            <div class="node-title">REST API</div>
+            <div class="node-sub">HTTP endpoints</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ TECH STACK ════════════ -->
+  <section id="stack">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">Under the Hood</div>
+        <h2 class="section-title">Tech Stack</h2>
+        <p class="section-subtitle">
+          Industry-standard tools chosen for reliability, community support, and seamless integration.
+        </p>
+      </div>
+
+      <div class="tech-grid stagger">
+        <div class="tech-card">
+          <div class="tech-icon" style="background: rgba(55, 118, 171, 0.15); color: #3776AB;">🐍</div>
+          <div>
+            <div class="tech-name">Python 3.11+</div>
+            <div class="tech-desc">Core language</div>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon" style="background: rgba(46, 173, 51, 0.15); color: #2EAD33;">🎭</div>
+          <div>
+            <div class="tech-name">Playwright</div>
+            <div class="tech-desc">Browser automation</div>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon" style="background: rgba(0, 154, 97, 0.15); color: #009A61;">🧪</div>
+          <div>
+            <div class="tech-name">pytest</div>
+            <div class="tech-desc">Test runner & fixtures</div>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon" style="background: rgba(96, 165, 250, 0.15); color: #60A5FA;">📡</div>
+          <div>
+            <div class="tech-name">requests</div>
+            <div class="tech-desc">API testing</div>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon" style="background: rgba(248, 113, 113, 0.15); color: #F87171;">📊</div>
+          <div>
+            <div class="tech-name">Allure Reports</div>
+            <div class="tech-desc">Interactive reporting</div>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon" style="background: rgba(167, 139, 250, 0.15); color: #A78BFA;">🎲</div>
+          <div>
+            <div class="tech-name">Faker</div>
+            <div class="tech-desc">Dynamic test data</div>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon" style="background: rgba(251, 191, 36, 0.15); color: #FBBF24;">🔄</div>
+          <div>
+            <div class="tech-name">GitHub Actions</div>
+            <div class="tech-desc">CI/CD pipeline</div>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon" style="background: rgba(96, 165, 250, 0.15); color: #60A5FA;">🐳</div>
+          <div>
+            <div class="tech-name">Docker</div>
+            <div class="tech-desc">Containerized runs</div>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon" style="background: rgba(248, 113, 113, 0.15); color: #FF4B4B;">📈</div>
+          <div>
+            <div class="tech-name">Streamlit</div>
+            <div class="tech-desc">Web dashboard</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ QUICK START ════════════ -->
+  <section id="quickstart">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">Get Started</div>
+        <h2 class="section-title">Quick Start</h2>
+        <p class="section-subtitle">
+          From clone to first test run in under two minutes.
+        </p>
+      </div>
+
+      <div class="fade-in">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="setup">Setup</button>
+          <button class="tab-btn" data-tab="run">Run Tests</button>
+          <button class="tab-btn" data-tab="docker">Docker</button>
+          <button class="tab-btn" data-tab="dashboard">Dashboard</button>
+        </div>
+
+        <div class="tab-content active" id="tab-setup">
+<pre><span class="comment"># Clone the repository</span>
+<span class="cmd">git clone</span> https://github.com/AnthonyJVS/FiveNine-QA.fw
+<span class="cmd">cd</span> FiveNine-QA.fw
+
+<span class="comment"># Create virtual environment</span>
+<span class="cmd">python</span> <span class="flag">-m</span> venv venv
+source venv/bin/activate   <span class="comment"># or venv\Scripts\activate on Windows</span>
+
+<span class="comment"># Install dependencies</span>
+<span class="cmd">pip install</span> <span class="flag">-r</span> requirements.txt
+<span class="cmd">playwright install</span> <span class="flag">--with-deps</span> chromium
+
+<span class="comment"># Configure environment (copy template, edit as needed)</span>
+<span class="cmd">cp</span> config/environments/.env.example config/environments/.env.dev</pre>
+        </div>
+
+        <div class="tab-content" id="tab-run">
+<pre><span class="comment"># Run all tests</span>
+<span class="cmd">pytest</span>
+
+<span class="comment"># Smoke tests only (fast CI check)</span>
+<span class="cmd">pytest</span> <span class="flag">-m</span> smoke
+
+<span class="comment"># UI tests with verbose output</span>
+<span class="cmd">pytest</span> tests/ui/ <span class="flag">-v</span>
+
+<span class="comment"># API tests</span>
+<span class="cmd">pytest</span> tests/api/ <span class="flag">-v</span>
+
+<span class="comment"># Debug mode — headed browser + slow motion</span>
+<span class="cmd">HEADLESS=false pytest</span> tests/ui/test_login.py <span class="flag">-v --slow-mo=500</span>
+
+<span class="comment"># By feature</span>
+<span class="cmd">pytest</span> <span class="flag">-m</span> login
+<span class="cmd">pytest</span> <span class="flag">-m</span> cart
+<span class="cmd">pytest</span> <span class="flag">-m</span> negative</pre>
+        </div>
+
+        <div class="tab-content" id="tab-docker">
+<pre><span class="comment"># Full test suite in container</span>
+<span class="cmd">docker compose up</span> tests
+
+<span class="comment"># Smoke tests only</span>
+<span class="cmd">docker compose up</span> smoke-tests
+
+<span class="comment"># API tests only</span>
+<span class="cmd">docker compose up</span> api-tests
+
+<span class="comment"># Rebuild after code changes</span>
+<span class="cmd">docker compose build</span> <span class="flag">--no-cache</span> && <span class="cmd">docker compose up</span> tests</pre>
+        </div>
+
+        <div class="tab-content" id="tab-dashboard">
+<pre><span class="comment"># Install dashboard dependencies</span>
+<span class="cmd">pip install</span> <span class="flag">-r</span> requirements-dashboard.txt
+
+<span class="comment"># Launch Streamlit dashboard</span>
+<span class="cmd">streamlit run</span> dashboard/app.py
+
+<span class="comment"># From the dashboard you can:</span>
+<span class="comment">#   • Select test suite (smoke / api / ui / all)</span>
+<span class="comment">#   • Choose browser and headed/headless mode</span>
+<span class="comment">#   • Run tests and see real-time output</span>
+<span class="comment">#   • Browse HTML reports and failure screenshots</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ FEATURES ════════════ -->
+  <section id="features">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">Capabilities</div>
+        <h2 class="section-title">Key Features</h2>
+        <p class="section-subtitle">
+          Everything a production-grade QA framework needs, built in from day one.
+        </p>
+      </div>
+
+      <div class="features-grid stagger">
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <div class="feature-name">Page Object Model</div>
+          <div class="feature-desc">Clean separation between test logic and page interactions. Selector changes stay isolated in one file.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧪</div>
+          <div class="feature-name">Fixture Injection</div>
+          <div class="feature-desc">Browser, context, page objects, and API client managed by pytest fixtures. Zero manual setup or teardown.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <div class="feature-name">Multi-Environment</div>
+          <div class="feature-desc">Switch between dev, staging, and production with a single environment variable. No hardcoded URLs.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎲</div>
+          <div class="feature-name">Dynamic Test Data</div>
+          <div class="feature-desc">Faker generates unique names, emails, and passwords per run — tests never collide or depend on stale data.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📸</div>
+          <div class="feature-name">Auto Screenshots</div>
+          <div class="feature-desc">Failure screenshots captured automatically and attached to reports. No manual debugging needed.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <div class="feature-name">CI/CD Pipeline</div>
+          <div class="feature-desc">GitHub Actions pipeline with staged execution: smoke → API → UI. Auto-cancel on concurrent pushes.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🐳</div>
+          <div class="feature-name">Docker Support</div>
+          <div class="feature-desc">One-command containerized test execution. No local browser installation required.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <div class="feature-name">Dual Reporting</div>
+          <div class="feature-desc">Self-contained HTML reports and interactive Allure dashboards. Both generated automatically.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <div class="feature-name">Streamlit Dashboard</div>
+          <div class="feature-desc">Web UI for running tests and browsing results — pick suites, browsers, and view output in real time.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">
+        Built for quality — <a href="https://github.com/AnthonyJVS/FiveNine-QA.fw" target="_blank" rel="noopener">FiveNine QA Framework</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
