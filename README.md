@@ -165,14 +165,13 @@ allure serve allure-results
 
 ### Other artifacts
 
-| Folder            | Content                                        |
-|-------------------|-------------------------------------------------|
-| `reports/`        | HTML reports                                    |
-| `screenshots/`    | Auto-captured on test failure                   |
-| `logs/`           | Timestamped execution logs                      |
-| `allure-results/` | Raw Allure data                                 |
 
----
+`reports/`         HTML reports                                    
+`screenshots/`     Auto-captured on test failure                   
+`logs/`            Timestamped execution logs                      
+`allure-results/`  Raw Allure data                                 
+
+
 
 ## Streamlit dashboard
 
@@ -195,19 +194,6 @@ From the dashboard you can:
 ## CI/CD — GitHub Actions
 
 The pipeline (`.github/workflows/ci.yml`) triggers on every push to `main` / `develop` and on pull requests.
-
-```
-Push / PR
-  │
-  ├── 🔥 Smoke Tests     ─── fast sanity check
-  ├── 🌐 API Tests        ─── API endpoint validation
-  │
-  └── (smoke passes)
-        └── 🖥️ UI Tests   ─── full browser regression
-              │
-              └── 📊 Summary ─── aggregate results
-```
-
 - Reports and screenshots are uploaded as **GitHub Actions artifacts** (kept 14 days).
 - Concurrent runs on the same branch auto-cancel to save minutes.
 - Manual dispatch via `workflow_dispatch` with a `test_suite` input.
@@ -235,63 +221,6 @@ docker compose build --no-cache && docker compose up tests
 Reports, screenshots, and logs are mounted back to your host.
 
 ---
-
-## Project structure
-
-```
-├── .github/workflows/ci.yml     # CI pipeline
-├── config/
-│   ├── settings.py              # Typed settings (dataclass)
-│   └── environments/            # .env.dev, .env.staging, .env.prod
-├── pages/                       # Page Object Model
-│   ├── base_page.py             # Shared helpers (click, fill, wait, navigate)
-│   ├── home_page.py
-│   ├── login_page.py
-│   ├── registration_page.py
-│   ├── products_page.py
-│   ├── product_detail_page.py
-│   ├── cart_page.py
-│   └── contact_page.py
-├── tests/
-│   ├── conftest.py              # Browser lifecycle fixtures
-│   ├── ui/                      # 7 UI test files
-│   │   └── conftest.py          # Page object injection
-│   └── api/                     # 5 API test files
-│       └── conftest.py          # API client fixture
-├── utils/
-│   ├── api_client.py            # HTTP client wrapper (requests)
-│   ├── logger.py                # File + console logger
-│   ├── helpers.py               # Screenshots, retry, timestamps
-│   └── fake_data.py             # Faker-based data generators
-├── test_data/                   # Static payloads (JSON)
-├── dashboard/app.py             # Streamlit dashboard
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── requirements-dashboard.txt
-├── pytest.ini
-└── ROADMAP.md
-```
-
----
-
-## Architecture at a glance
-
-```
-Tests (ui / api / smoke)
-  │
-  ▼
-Fixtures (conftest.py per layer)
-  │
-  ▼
-Page Objects (BasePage → concrete pages)     API Client (requests wrapper)
-  │                                              │
-  ▼                                              ▼
-Playwright browser                           automationexercise.com/api
-  │
-  ▼
-automationexercise.com
-```
 
 **Why this structure?**
 
