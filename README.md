@@ -305,7 +305,7 @@ automationexercise.com
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) — includes planned features like cross-browser CI matrix, parallel execution, visual regression, and BDD integration.
+Soon there will be a detailed plan
 
 ---
 
