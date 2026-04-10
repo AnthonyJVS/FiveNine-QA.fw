@@ -20,21 +20,23 @@ Built with Python · Playwright · pytest.
 
 ---
 
-## Tech stack
+## Tech Stack
 
-| Layer            | Tool                              |
-|------------------|-----------------------------------|
-| Language         | Python 3.11+                      |
-| Browser engine   | Playwright                        |
-| Test runner      | pytest                            |
-| API testing      | requests                          |
-| Reports          | Allure, pytest-html               |
-| Test data        | Faker                             |
-| Config           | python-dotenv + dataclass         |
-| CI/CD            | GitHub Actions                    |
-| Containers       | Docker & Docker Compose           |
-| Dashboard        | Streamlit                         |
+### Core
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python)
+![Pytest](https://img.shields.io/badge/pytest-Test%20Runner-green?style=for-the-badge&logo=pytest)
+![Playwright](https://img.shields.io/badge/Playwright-Browser%20Automation-2EAD33?style=for-the-badge&logo=playwright)
 
+### API & Data
+![Requests](https://img.shields.io/badge/requests-API%20Testing-darkred?style=for-the-badge)
+![Faker](https://img.shields.io/badge/Faker-Test%20Data-purple?style=for-the-badge)
+![dotenv](https://img.shields.io/badge/python--dotenv-Config-grey?style=for-the-badge)
+
+### Reporting & CI
+![Allure](https://img.shields.io/badge/Allure-Reports-orange?style=for-the-badge)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-black?style=for-the-badge&logo=githubactions)
+![Docker](https://img.shields.io/badge/Docker-Containers-2496ED?style=for-the-badge&logo=docker)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit)
 ---
 
 ## Quick start
@@ -67,16 +69,15 @@ set ENV=staging    # Windows
 export ENV=staging # macOS / Linux
 ```
 
-Key settings you might want to tweak:
+## Configuration
 
-| Variable          | Default                           | Description                       |
-|-------------------|-----------------------------------|-----------------------------------|
-| `BASE_URL`        | `https://automationexercise.com`  | Target site URL                   |
-| `BROWSER`         | `chromium`                        | Browser engine (`chromium` / `firefox` / `webkit`) |
-| `HEADLESS`        | `true`                            | Set `false` to watch the browser  |
-| `SLOW_MO`         | `0`                               | Delay between actions (ms), useful for debugging |
-| `DEFAULT_TIMEOUT` | `30000`                           | Element interaction timeout (ms)  |
+Core settings you may want to tweak before running the framework:
 
+- **`BASE_URL`** — target application URL, default: `https://automationexercise.com`
+- **`BROWSER`** — browser engine: `chromium`, `firefox`, or `webkit`
+- **`HEADLESS`** — set to `false` if you want to watch the browser
+- **`SLOW_MO`** — adds delay between actions in milliseconds, useful for debugging
+- **`DEFAULT_TIMEOUT`** — default element interaction timeout in milliseconds
 ---
 
 ## Running tests
@@ -122,19 +123,17 @@ pytest -v --tb=long -s
 
 ### Available markers
 
-| Marker         | What it selects                    |
-|----------------|------------------------------------|
-| `smoke`        | Fast CI sanity checks              |
-| `regression`   | Full regression suite              |
-| `ui`           | All browser-based tests            |
-| `api`          | API-only tests (no browser)        |
-| `login`        | Authentication tests               |
-| `registration` | Signup / account creation tests    |
-| `navigation`   | Page loading and navigation tests  |
-| `search`       | Product search tests               |
-| `cart`          | Shopping cart tests                 |
-| `contact`      | Contact form tests                 |
-| `negative`     | Negative / error-path scenarios    |
+ `smoke`         Fast CI sanity checks              
+ `regression`    Full regression suite              
+ `ui`            All browser-based tests            
+ `api`           API-only tests (no browser)        
+ `login`         Authentication tests               
+ `registration`  Signup / account creation tests    
+ `navigation`    Page loading and navigation tests  
+ `search`        Product search tests               
+ `cart`          Shopping cart tests                 
+ `contact`       Contact form tests                 
+ `negative`      Negative / error-path scenarios    
 
 ---
 
@@ -155,23 +154,16 @@ open reports/report.html
 xdg-open reports/report.html
 ```
 
-### Allure (interactive)
-
-If you have [Allure CLI](https://allurereport.org/) installed:
-
-```bash
-allure serve allure-results
-```
-
 ### Other artifacts
 
+| Folder            | Content                                        |
+|-------------------|-------------------------------------------------|
+| `reports/`        | HTML reports                                    |
+| `screenshots/`    | Auto-captured on test failure                   |
+| `logs/`           | Timestamped execution logs                      |
+| `allure-results/` | Raw Allure data                                 |
 
-`reports/`         HTML reports                                    
-`screenshots/`     Auto-captured on test failure                   
-`logs/`            Timestamped execution logs                      
-`allure-results/`  Raw Allure data                                 
-
-
+---
 
 ## Streamlit dashboard
 
@@ -194,6 +186,19 @@ From the dashboard you can:
 ## CI/CD — GitHub Actions
 
 The pipeline (`.github/workflows/ci.yml`) triggers on every push to `main` / `develop` and on pull requests.
+
+```
+Push / PR
+  │
+  ├── 🔥 Smoke Tests     ─── fast sanity check
+  ├── 🌐 API Tests        ─── API endpoint validation
+  │
+  └── (smoke passes)
+        └── 🖥️ UI Tests   ─── full browser regression
+              │
+              └── 📊 Summary ─── aggregate results
+```
+
 - Reports and screenshots are uploaded as **GitHub Actions artifacts** (kept 14 days).
 - Concurrent runs on the same branch auto-cancel to save minutes.
 - Manual dispatch via `workflow_dispatch` with a `test_suite` input.
@@ -222,6 +227,63 @@ Reports, screenshots, and logs are mounted back to your host.
 
 ---
 
+## Project structure
+
+```
+├── .github/workflows/ci.yml     # CI pipeline
+├── config/
+│   ├── settings.py              # Typed settings (dataclass)
+│   └── environments/            # .env.dev, .env.staging, .env.prod
+├── pages/                       # Page Object Model
+│   ├── base_page.py             # Shared helpers (click, fill, wait, navigate)
+│   ├── home_page.py
+│   ├── login_page.py
+│   ├── registration_page.py
+│   ├── products_page.py
+│   ├── product_detail_page.py
+│   ├── cart_page.py
+│   └── contact_page.py
+├── tests/
+│   ├── conftest.py              # Browser lifecycle fixtures
+│   ├── ui/                      # 7 UI test files
+│   │   └── conftest.py          # Page object injection
+│   └── api/                     # 5 API test files
+│       └── conftest.py          # API client fixture
+├── utils/
+│   ├── api_client.py            # HTTP client wrapper (requests)
+│   ├── logger.py                # File + console logger
+│   ├── helpers.py               # Screenshots, retry, timestamps
+│   └── fake_data.py             # Faker-based data generators
+├── test_data/                   # Static payloads (JSON)
+├── dashboard/app.py             # Streamlit dashboard
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── requirements-dashboard.txt
+├── pytest.ini
+└── ROADMAP.md
+```
+
+---
+
+## Architecture at a glance
+
+```
+Tests (ui / api / smoke)
+  │
+  ▼
+Fixtures (conftest.py per layer)
+  │
+  ▼
+Page Objects (BasePage → concrete pages)     API Client (requests wrapper)
+  │                                              │
+  ▼                                              ▼
+Playwright browser                           automationexercise.com/api
+  │
+  ▼
+automationexercise.com
+```
+
 **Why this structure?**
 
 - **Page Object Model** — selector changes stay isolated in one file; tests stay readable.
@@ -234,7 +296,7 @@ Reports, screenshots, and logs are mounted back to your host.
 
 ## Roadmap
 
-Soon there will be a detailed plan
+See [ROADMAP.md](ROADMAP.md) — includes planned features like cross-browser CI matrix, parallel execution, visual regression, and BDD integration.
 
 ---
 

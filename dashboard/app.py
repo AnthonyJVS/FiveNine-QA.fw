@@ -31,12 +31,12 @@ ALLURE_RESULTS_DIR = PROJECT_ROOT / "allure-results"
 
 st.set_page_config(
     page_title="QA Automation Dashboard",
-    page_icon="🧪",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-st.title("🧪 QA Automation Dashboard")
+st.title(" QA Automation Dashboard")
 st.markdown("---")
 
 # ──────────────────────────────────────────────
@@ -44,7 +44,7 @@ st.markdown("---")
 # ──────────────────────────────────────────────
 
 with st.sidebar:
-    st.header("⚡ Run Tests")
+    st.header(" Run Tests")
 
     test_suite = st.selectbox(
         "Select test suite",
@@ -60,7 +60,7 @@ with st.sidebar:
 
     headless = st.checkbox("Headless mode", value=True)
 
-    if st.button("🚀 Run Tests", type="primary", use_container_width=True):
+    if st.button(" Run Tests", type="primary", use_container_width=True):
         # Build the pytest command
         cmd = [sys.executable, "-m", "pytest"]
 
@@ -117,10 +117,10 @@ with st.sidebar:
 # ──────────────────────────────────────────────
 
 tab_output, tab_reports, tab_screenshots, tab_logs = st.tabs([
-    "🖥️ Test Output",
-    "📊 Reports",
-    "📸 Screenshots",
-    "📝 Logs",
+    " Test Output",
+    " Reports",
+    " Screenshots",
+    " Logs",
 ])
 
 # ── Test Output Tab ──
