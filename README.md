@@ -120,19 +120,6 @@ pytest -m contact
 pytest -m negative      # edge cases and error paths
 ```
 
-### Debug Mode
-
-```bash
-# Headed browser + slow motion (Linux/macOS)
-HEADLESS=false pytest tests/ui/test_login.py -v --slow-mo=500
-
-# Headed browser + slow motion (Windows PowerShell)
-$env:HEADLESS="false"; pytest tests/ui/test_login.py -v --slow-mo=500; $env:HEADLESS=$null
-
-# More verbose output
-pytest -v --tb=long -s
-```
-
 ### Available Markers
 
 | Marker | Description |
