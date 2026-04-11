@@ -94,6 +94,11 @@ def registered_user(page, new_user_data):
 
     logger.info(f"Registered test user: {new_user_data['email']}")
 
+    # Ensure the user is logged out before yielding so the login test runs correctly
+    home = HomePage(page)
+    if home.is_logged_in():
+        home.logout()
+
     yield new_user_data
 
     # Teardown — delete the test account
