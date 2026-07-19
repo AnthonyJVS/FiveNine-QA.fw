@@ -161,6 +161,52 @@
     });
   });
 
+  // ── Magnetic buttons (cinematic footer + pills) ──
+  document.querySelectorAll('.magnetic').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      el.style.transform = `translate(${x * 0.35}px, ${y * 0.35}px)`;
+    });
+
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = 'translate(0, 0)';
+    });
+  });
+
+  // ── Giant background text parallax (footer) ──
+  const footerGiantText = document.getElementById('footerGiantText');
+  const footerWrapper = document.querySelector('.footer-reveal-wrapper');
+
+  if (footerGiantText && footerWrapper) {
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const rect = footerWrapper.getBoundingClientRect();
+        const viewportH = window.innerHeight;
+        // Progress 0 -> 1 as the footer wrapper enters the viewport
+        const progress = Math.min(1, Math.max(0, (viewportH - rect.top) / (viewportH + rect.height)));
+        const translateY = 10 - progress * 10; // 10vh -> 0vh
+        footerGiantText.style.transform = `translate(-50%, ${translateY}vh)`;
+        footerGiantText.style.opacity = String(Math.min(1, progress * 1.6));
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+
+  // ── Back to top (footer) ──
+  const backToTop = document.getElementById('backToTop');
+  if (backToTop) {
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
   // ── Active nav link highlighting ──
   const sections = document.querySelectorAll('section[id]');
 
