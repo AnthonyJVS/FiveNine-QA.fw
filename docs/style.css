@@ -3,31 +3,34 @@
    Dark corporate + subtle cyber aesthetic
    ═══════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-/* ── Design Tokens ── */
+/* ── Design Tokens ──
+   Premium dark mode: zinc/slate, not pure black. One accent (neon mint).
+   One unified corner radius applied to every card/button/window. ── */
 :root {
-  --bg-primary: #08090d;
-  --bg-secondary: #0d0f14;
-  --bg-card: rgba(15, 18, 27, 0.7);
-  --bg-card-hover: rgba(20, 24, 36, 0.85);
-  --bg-glass: rgba(15, 18, 27, 0.5);
+  --bg-primary: #0a0a0d;      /* zinc-950-ish base */
+  --bg-secondary: #131318;    /* zinc-900-ish */
+  --bg-elevated: #1a1a21;     /* zinc-850-ish, raised surfaces */
+  --bg-card: rgba(24, 24, 30, 0.6);
+  --bg-card-hover: rgba(30, 30, 38, 0.8);
+  --bg-glass: rgba(24, 24, 30, 0.5);
 
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-accent: rgba(0, 212, 170, 0.2);
-  --border-hover: rgba(0, 212, 170, 0.4);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(0, 230, 180, 0.25);
+  --border-hover: rgba(0, 230, 180, 0.45);
 
-  --text-primary: #e8eaed;
-  --text-secondary: #8b929e;
-  --text-muted: #5a6170;
-  --text-accent: #00d4aa;
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-muted: #6b6b76;
+  --text-accent: #00e6b4;
 
-  --accent: #00d4aa;
-  --accent-rgb: 0, 212, 170;
-  --accent-glow: rgba(0, 212, 170, 0.15);
-  --accent-dark: #009e7e;
-  --secondary: #60a5fa;
-  --secondary-rgb: 96, 165, 250;
+  --accent: #00e6b4;
+  --accent-rgb: 0, 230, 180;
+  --accent-glow: rgba(0, 230, 180, 0.14);
+  --accent-dark: #00ad86;
+  --secondary: #818cf8;
+  --secondary-rgb: 129, 140, 248;
 
   --success: #34d399;
   --danger: #f87171;
@@ -35,24 +38,28 @@
   --info: #60a5fa;
   --skipped: #a78bfa;
 
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* One uniform corner radius for every card, button, and window. */
+  --radius: 14px;
+  --radius-sm: 14px;
+  --radius-md: 14px;
+  --radius-lg: 14px;
+  --radius-xl: 14px;
+  /* Fully-rounded is reserved for small status chips/badges/dots only. */
+  --radius-pill: 100px;
 
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 30px rgba(0, 212, 170, 0.08);
+  --shadow-glow: 0 0 30px rgba(0, 230, 180, 0.08);
 
-  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   --transition-fast: 0.15s ease;
   --transition-base: 0.25s ease;
   --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* ── Glass pill mixing (cinematic aesthetic) ── */
+  /* ── Glass surface mixing (cards, pills, terminal windows) ── */
   --pill-bg-1: color-mix(in srgb, var(--text-primary) 6%, transparent);
   --pill-bg-2: color-mix(in srgb, var(--text-primary) 2%, transparent);
   --pill-shadow: color-mix(in srgb, var(--bg-primary) 60%, transparent);
@@ -118,15 +125,15 @@ body::after {
 
 /* ── Layout ── */
 .container {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 32px;
   position: relative;
   z-index: 1;
 }
 
 section {
-  padding: 100px 0;
+  padding: 140px 0;
   position: relative;
   z-index: 1;
 }
@@ -357,7 +364,7 @@ a:hover {
   gap: 8px;
   padding: 8px 18px;
   border: 1px solid var(--pill-border);
-  border-radius: 100px;
+  border-radius: var(--radius);
   font-size: 0.85rem;
   color: var(--text-secondary);
   background: linear-gradient(145deg, var(--pill-bg-1) 0%, var(--pill-bg-2) 100%);
@@ -409,6 +416,14 @@ a:hover {
   overflow: hidden;
 }
 
+/* .bg-aurora/.bg-grid-fade/.hero-visual are position:absolute, so .container
+   is the only real flex item here — without an explicit width it shrink-wraps
+   to its content instead of filling the row, which compresses hero-content
+   and pushes text to overlap the hero-visual terminal. */
+.hero > .container {
+  width: 100%;
+}
+
 .hero-content {
   max-width: 720px;
 }
@@ -420,7 +435,7 @@ a:hover {
   padding: 6px 16px;
   background: var(--accent-glow);
   border: 1px solid var(--border-accent);
-  border-radius: 100px;
+  border-radius: var(--radius-pill);
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--accent);
@@ -474,8 +489,8 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 13px 30px;
-  border-radius: 100px;
+  padding: 14px 30px;
+  border-radius: var(--radius);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -514,20 +529,37 @@ a:hover {
 /* Hero terminal decoration */
 .hero-visual {
   position: absolute;
-  right: -60px;
+  right: 40px;
   top: 50%;
   transform: translateY(-50%);
-  width: 480px;
-  opacity: 0.15;
+  width: 440px;
+  opacity: 0.55;
   pointer-events: none;
 }
 
-.hero-visual pre {
+.hero-terminal .terminal-body {
+  padding: 20px 22px;
+}
+
+.hero-terminal pre {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.hero-terminal .term-cmd {
   color: var(--accent);
-  line-height: 1.8;
-  white-space: pre;
+}
+
+.hero-terminal .term-muted {
+  color: var(--text-muted);
+}
+
+.hero-terminal .term-pass {
+  color: var(--success);
+  font-weight: 600;
 }
 
 /* ═══════════════════════════════════════════════
@@ -552,8 +584,10 @@ a:hover {
 
 .stat-card {
   background: var(--bg-card);
-  padding: 28px 24px;
+  padding: 32px 24px;
   text-align: center;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: background var(--transition-base);
 }
 
@@ -587,7 +621,7 @@ a:hover {
    ═══════════════════════════════════════════════ */
 .section-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 72px;
 }
 
 .section-label {
@@ -635,14 +669,16 @@ a:hover {
 .results-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 28px;
 }
 
 .results-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 32px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: all var(--transition-base);
 }
 
@@ -659,7 +695,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .card-title {
@@ -680,7 +716,7 @@ a:hover {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   padding: 4px 10px;
-  border-radius: 100px;
+  border-radius: var(--radius-pill);
   font-weight: 500;
 }
 
@@ -700,20 +736,20 @@ a:hover {
 .pass-rate-container {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 44px;
 }
 
 .pass-rate-ring {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 152px;
+  height: 152px;
   flex-shrink: 0;
 }
 
 .pass-rate-ring svg {
   transform: rotate(-90deg);
-  width: 140px;
-  height: 140px;
+  width: 152px;
+  height: 152px;
 }
 
 .pass-rate-ring .track {
@@ -724,11 +760,12 @@ a:hover {
 
 .pass-rate-ring .progress {
   fill: none;
-  stroke: var(--accent);
-  stroke-width: 8;
+  stroke: url(#passRateGrad);
+  stroke-width: 9;
   stroke-linecap: round;
   stroke-dasharray: 377;
   stroke-dashoffset: 377;
+  filter: drop-shadow(0 0 8px rgba(var(--accent-rgb), 0.35));
   transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -910,57 +947,95 @@ a:hover {
    ═══════════════════════════════════════════════ */
 .arch-flow {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   gap: 0;
   flex-wrap: wrap;
-  padding: 40px 0;
+  padding: 20px 0;
 }
 
 .arch-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 20px 28px;
+  padding: 24px 30px;
   text-align: center;
-  min-width: 140px;
+  min-width: 150px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: all var(--transition-base);
+  /* Gradient border via padding-box/border-box layering (no extra markup) */
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--bg-card), var(--bg-card)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(var(--accent-rgb), 0.25) 50%, rgba(255, 255, 255, 0.04));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 .arch-node:hover {
-  border-color: var(--border-accent);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-glow);
+  background-image:
+    linear-gradient(var(--bg-card-hover), var(--bg-card-hover)),
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.5), rgba(var(--secondary-rgb), 0.4) 50%, rgba(var(--accent-rgb), 0.2));
 }
 
 .arch-node .node-icon {
   font-size: 1.5rem;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .arch-node .node-title {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .arch-node .node-sub {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   font-family: var(--font-mono);
 }
 
 .arch-arrow {
+  display: flex;
+  align-items: center;
   color: var(--text-muted);
-  font-size: 1.2rem;
-  padding: 0 8px;
-  opacity: 0.4;
+  padding: 0 10px;
+  opacity: 0.5;
+}
+
+.arch-arrow svg {
+  width: 28px;
+  height: 12px;
 }
 
 .arch-group {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0;
+}
+
+.arch-branch {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  padding-left: 24px;
+}
+
+.arch-branch::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--border-accent) 20%, var(--border-accent) 80%, transparent);
 }
 
 /* ═══════════════════════════════════════════════
@@ -968,8 +1043,8 @@ a:hover {
    ═══════════════════════════════════════════════ */
 .tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px;
 }
 
 .tech-card {
@@ -980,6 +1055,8 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: all var(--transition-base);
 }
 
@@ -1012,34 +1089,128 @@ a:hover {
 }
 
 /* ═══════════════════════════════════════════════
+   TERMINAL WINDOW — macOS-style code block chrome
+   ═══════════════════════════════════════════════ */
+.terminal-window {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-md);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* The tab bar scrolls horizontally rather than wrapping — wrapping would grow
+   the header to two lines and leave the dots/copy button awkwardly centered
+   across both, overlapping the wrapped tabs on narrow screens. */
+.tabs {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  white-space: nowrap;
+}
+
+.terminal-dots .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dots .dot.red { background: #ff5f57; }
+.terminal-dots .dot.yellow { background: #febc2e; }
+.terminal-dots .dot.green { background: #28c840; }
+
+.terminal-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.terminal-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 7px 14px;
+  background: var(--pill-bg-1);
+  border: 1px solid var(--pill-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.terminal-copy-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--pill-border-hover);
+  background: var(--pill-bg-1-hover);
+}
+
+.terminal-copy-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.terminal-copy-btn.copied {
+  color: var(--accent);
+  border-color: var(--border-accent);
+}
+
+.terminal-body {
+  overflow-x: auto;
+}
+
+/* ═══════════════════════════════════════════════
    QUICKSTART / CODE TABS
    ═══════════════════════════════════════════════ */
 .tabs {
   display: flex;
   gap: 4px;
-  margin-bottom: 0;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-  padding: 4px 4px 0;
-  border: 1px solid var(--border-subtle);
-  border-bottom: none;
 }
 
 .tab-btn {
-  padding: 10px 20px;
+  padding: 8px 16px;
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 500;
   font-family: var(--font-mono);
   cursor: pointer;
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
 }
 
 .tab-btn.active {
-  background: var(--bg-card);
+  background: var(--pill-bg-1-hover);
   color: var(--accent);
 }
 
@@ -1049,12 +1220,7 @@ a:hover {
 
 .tab-content {
   display: none;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-top: none;
-  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   padding: 24px;
-  overflow-x: auto;
 }
 
 .tab-content.active {
@@ -1086,14 +1252,18 @@ a:hover {
 .features-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 
 .feature-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 32px 28px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: all var(--transition-base);
   position: relative;
   overflow: hidden;
@@ -1227,7 +1397,7 @@ a:hover {
   align-items: center;
   gap: 10px;
   padding: 16px 34px;
-  border-radius: 100px;
+  border-radius: var(--radius);
   color: var(--text-primary);
   font-weight: 600;
   font-size: 0.9rem;
@@ -1254,7 +1424,7 @@ a:hover {
 
 .footer-links-row .glass-pill {
   padding: 10px 22px;
-  border-radius: 100px;
+  border-radius: var(--radius);
   font-size: 0.78rem;
   font-weight: 500;
   color: var(--text-secondary);
@@ -1291,7 +1461,7 @@ a:hover {
   align-items: center;
   gap: 8px;
   padding: 12px 22px;
-  border-radius: 100px;
+  border-radius: var(--radius-pill);
   cursor: default;
 }
 
@@ -1448,8 +1618,22 @@ a:hover {
     gap: 12px;
   }
 
-  .arch-arrow {
+  .arch-arrow svg {
     transform: rotate(90deg);
+  }
+
+  .arch-branch {
+    padding-left: 0;
+    gap: 20px;
+  }
+
+  .arch-branch::before {
+    display: none;
+  }
+
+  .arch-branch .arch-group {
+    flex-direction: column;
+    gap: 12px;
   }
 
   .hero h1 {

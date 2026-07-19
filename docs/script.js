@@ -161,6 +161,35 @@
     });
   });
 
+  // ── Terminal window: copy active tab's code to clipboard ──
+  const terminalCopyBtn = document.getElementById('terminalCopyBtn');
+  if (terminalCopyBtn) {
+    const terminalWindow = terminalCopyBtn.closest('.terminal-window');
+    const copyLabel = terminalCopyBtn.querySelector('span');
+    const defaultLabel = copyLabel ? copyLabel.textContent : 'Copy';
+
+    terminalCopyBtn.addEventListener('click', async () => {
+      const activePre = terminalWindow.querySelector('.tab-content.active pre');
+      if (!activePre) return;
+
+      try {
+        await navigator.clipboard.writeText(activePre.innerText);
+      } catch (err) {
+        // Clipboard API unavailable (e.g. insecure context) — fail silently,
+        // the button just won't show the "Copied!" confirmation.
+        return;
+      }
+
+      terminalCopyBtn.classList.add('copied');
+      if (copyLabel) copyLabel.textContent = 'Copied!';
+
+      setTimeout(() => {
+        terminalCopyBtn.classList.remove('copied');
+        if (copyLabel) copyLabel.textContent = defaultLabel;
+      }, 1600);
+    });
+  }
+
   // ── Magnetic buttons (cinematic footer + pills) ──
   document.querySelectorAll('.magnetic').forEach(el => {
     el.addEventListener('mousemove', (e) => {

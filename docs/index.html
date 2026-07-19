@@ -65,27 +65,35 @@
       </div>
     </div>
     <div class="hero-visual" aria-hidden="true">
-      <pre>
-  ┌─────────────────────────────┐
-  │  PYTEST SESSION STARTS      │
-  │  platform linux -- 3.11.9   │
-  │  plugins: playwright, allure│
-  ├─────────────────────────────┤
-  │  tests/ui/test_login.py     │
-  │    ✓ test_valid_login       │
-  │    ✓ test_invalid_login     │
-  │    ✓ test_logout            │
-  │  tests/api/test_products.py │
-  │    ✓ test_get_all_products  │
-  │    ✓ test_search_product    │
-  │    ✓ test_product_detail    │
-  │  tests/ui/test_cart.py      │
-  │    ✓ test_add_to_cart       │
-  │    ✓ test_remove_from_cart  │
-  ├─────────────────────────────┤
-  │  8 passed in 42.3s          │
-  └─────────────────────────────┘
-      </pre>
+      <div class="terminal-window hero-terminal">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="terminal-title">pytest — tests/</span>
+        </div>
+        <div class="terminal-body">
+<pre><span class="term-cmd">$ pytest -v</span>
+<span class="term-muted">platform linux -- Python 3.11.9
+plugins: playwright, allure-pytest</span>
+
+tests/ui/test_login.py
+  <span class="term-pass">✓</span> test_valid_login
+  <span class="term-pass">✓</span> test_invalid_login
+  <span class="term-pass">✓</span> test_logout
+tests/api/test_products.py
+  <span class="term-pass">✓</span> test_get_all_products
+  <span class="term-pass">✓</span> test_search_product
+  <span class="term-pass">✓</span> test_product_detail
+tests/ui/test_cart.py
+  <span class="term-pass">✓</span> test_add_to_cart
+  <span class="term-pass">✓</span> test_remove_from_cart
+
+<span class="term-pass">8 passed</span> in 42.3s</pre>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -159,6 +167,12 @@
           <div class="pass-rate-container">
             <div class="pass-rate-ring" id="passRateRing">
               <svg viewBox="0 0 128 128">
+                <defs>
+                  <linearGradient id="passRateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="var(--accent)"/>
+                    <stop offset="100%" stop-color="var(--secondary)"/>
+                  </linearGradient>
+                </defs>
                 <circle class="track" cx="64" cy="64" r="56"/>
                 <circle class="progress" cx="64" cy="64" r="56" id="progressRing"/>
               </svg>
@@ -283,6 +297,15 @@
         </p>
       </div>
 
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+          <linearGradient id="archArrowGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.9"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
       <div class="arch-flow fade-in">
         <div class="arch-group">
           <div class="arch-node">
@@ -290,7 +313,7 @@
             <div class="node-title">Test Layer</div>
             <div class="node-sub">ui / api / smoke</div>
           </div>
-          <span class="arch-arrow">→</span>
+          <span class="arch-arrow"><svg viewBox="0 0 28 12" fill="none"><path d="M0 6h24M18 1l6 5-6 5" stroke="url(#archArrowGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
 
         <div class="arch-group">
@@ -299,48 +322,35 @@
             <div class="node-title">Fixtures</div>
             <div class="node-sub">conftest.py</div>
           </div>
-          <span class="arch-arrow">→</span>
+          <span class="arch-arrow"><svg viewBox="0 0 28 12" fill="none"><path d="M0 6h24M18 1l6 5-6 5" stroke="url(#archArrowGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
 
-        <div class="arch-group">
-          <div class="arch-node">
-            <div class="node-icon">📄</div>
-            <div class="node-title">Page Objects</div>
-            <div class="node-sub">BasePage → pages/</div>
+        <div class="arch-branch">
+          <div class="arch-group">
+            <div class="arch-node">
+              <div class="node-icon">📄</div>
+              <div class="node-title">Page Objects</div>
+              <div class="node-sub">BasePage → pages/</div>
+            </div>
+            <span class="arch-arrow"><svg viewBox="0 0 28 12" fill="none"><path d="M0 6h24M18 1l6 5-6 5" stroke="url(#archArrowGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="arch-node">
+              <div class="node-icon">🌐</div>
+              <div class="node-title">Browser</div>
+              <div class="node-sub">Playwright</div>
+            </div>
           </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node">
-            <div class="node-icon">🌐</div>
-            <div class="node-title">Browser</div>
-            <div class="node-sub">Playwright</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="arch-flow fade-in" style="margin-top: -20px;">
-        <div class="arch-group">
-          <div class="arch-node" style="opacity: 0; pointer-events: none;">
-            <div class="node-title">spacer</div>
-          </div>
-          <span class="arch-arrow" style="opacity: 0;">→</span>
-        </div>
-        <div class="arch-group">
-          <div class="arch-node" style="opacity: 0; pointer-events: none;">
-            <div class="node-title">spacer</div>
-          </div>
-          <span class="arch-arrow" style="opacity: 0;">→</span>
-        </div>
-        <div class="arch-group">
-          <div class="arch-node">
-            <div class="node-icon">🔌</div>
-            <div class="node-title">API Client</div>
-            <div class="node-sub">requests wrapper</div>
-          </div>
-          <span class="arch-arrow">→</span>
-          <div class="arch-node">
-            <div class="node-icon">📡</div>
-            <div class="node-title">REST API</div>
-            <div class="node-sub">HTTP endpoints</div>
+          <div class="arch-group">
+            <div class="arch-node">
+              <div class="node-icon">🔌</div>
+              <div class="node-title">API Client</div>
+              <div class="node-sub">requests wrapper</div>
+            </div>
+            <span class="arch-arrow"><svg viewBox="0 0 28 12" fill="none"><path d="M0 6h24M18 1l6 5-6 5" stroke="url(#archArrowGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="arch-node">
+              <div class="node-icon">📡</div>
+              <div class="node-title">REST API</div>
+              <div class="node-sub">HTTP endpoints</div>
+            </div>
           </div>
         </div>
       </div>
@@ -437,12 +447,23 @@
         </p>
       </div>
 
-      <div class="fade-in">
-        <div class="tabs">
-          <button class="tab-btn active" data-tab="setup">Setup</button>
-          <button class="tab-btn" data-tab="run">Run Tests</button>
-          <button class="tab-btn" data-tab="docker">Docker</button>
-          <button class="tab-btn" data-tab="dashboard">Dashboard</button>
+      <div class="terminal-window fade-in">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="setup">Setup</button>
+            <button class="tab-btn" data-tab="run">Run Tests</button>
+            <button class="tab-btn" data-tab="docker">Docker</button>
+            <button class="tab-btn" data-tab="dashboard">Dashboard</button>
+          </div>
+          <button class="terminal-copy-btn" id="terminalCopyBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            <span>Copy</span>
+          </button>
         </div>
 
         <div class="tab-content active" id="tab-setup">
