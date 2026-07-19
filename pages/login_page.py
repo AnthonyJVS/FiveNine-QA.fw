@@ -5,7 +5,12 @@ URL: https://automationexercise.com/login
 """
 
 import allure
+from playwright._impl._errors import TimeoutError as PlaywrightTimeout
+
 from pages.base_page import BasePage
+from utils.logger import get_logger
+
+logger = get_logger("login_page")
 
 
 class LoginPage(BasePage):
@@ -89,6 +94,16 @@ class LoginPage(BasePage):
         self.fill(self.SIGNUP_NAME, name)
         self.fill(self.SIGNUP_EMAIL, email)
         self.click(self.SIGNUP_BUTTON)
+        # A successful signup navigates to /signup; a duplicate-email submission
+        # stays on /login and shows an inline error instead — tolerate that case
+        # rather than failing the signup action itself. Waiting here (with the
+        # framework's full navigation_timeout, not the 5s default used by
+        # is_visible()) avoids callers racing straight into verify_form_visible()
+        # before the new page has actually navigated.
+        try:
+            self.wait_for_url("**/signup**")
+        except PlaywrightTimeout:
+            logger.debug("No navigation to /signup — likely a signup validation error")
 
     @allure.step("Verify signup form is visible")
     def verify_signup_form_visible(self) -> bool:
