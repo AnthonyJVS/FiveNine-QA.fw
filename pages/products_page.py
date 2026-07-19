@@ -5,7 +5,12 @@ URL: https://automationexercise.com/products
 """
 
 import allure
+from playwright._impl._errors import TimeoutError as PlaywrightTimeout
+
 from pages.base_page import BasePage
+from utils.logger import get_logger
+
+logger = get_logger("products_page")
 
 
 class ProductsPage(BasePage):
@@ -71,6 +76,15 @@ class ProductsPage(BasePage):
         """
         self.fill(self.SEARCH_INPUT, query)
         self.click(self.SEARCH_BUTTON)
+        # Search results are rendered client-side after this click, so callers
+        # racing straight into get_product_count()/get_product_names() would
+        # otherwise see the pre-search DOM (0 results) — wait for the header here.
+        # Tolerate a missing header (e.g. malformed queries the site can't parse
+        # into a results view) rather than failing the search action itself.
+        try:
+            self.wait_for_element(self.SEARCHED_PRODUCTS_HEADER, timeout=10000)
+        except PlaywrightTimeout:
+            logger.debug(f"'Searched Products' header did not appear for query: {query}")
 
     def get_product_names(self) -> list[str]:
         """Get names of all visible products."""

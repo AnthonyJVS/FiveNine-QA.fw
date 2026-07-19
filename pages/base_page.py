@@ -64,7 +64,8 @@ class BasePage:
     @allure.step("Fill '{selector}' with text")
     def fill(self, selector: str, text: str):
         """Fill a text input by selector (auto-dismisses consent overlay on block)."""
-        logger.debug(f"Filling '{selector}' with '{text[:20]}...'")
+        logged_value = "***REDACTED***" if "password" in selector.lower() else f"{text[:20]}..."
+        logger.debug(f"Filling '{selector}' with '{logged_value}'")
         try:
             self.page.fill(selector, text)
         except PlaywrightTimeout as e:

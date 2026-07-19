@@ -58,6 +58,13 @@ class CartPage(BasePage):
         Returns:
             List of CartItem dataclass instances.
         """
+        # Callers reach this page via a click-triggered navigation (e.g. the
+        # "View Cart" modal link) or right after an item removal, so the DOM
+        # may briefly contain both nodes (one hidden) — the plain comma selector
+        # can resolve to a hidden element and hang, so filter to :visible here
+        # to wait for whichever one is actually shown.
+        self.wait_for_element(f"{self.CART_TABLE}:visible, {self.EMPTY_CART_TEXT}:visible")
+
         items = []
         rows = self.page.locator(self.CART_ROWS)
 
@@ -87,9 +94,15 @@ class CartPage(BasePage):
         """Remove a cart item by its row index."""
         delete_buttons = self.page.locator(self.CART_DELETE_BUTTON)
         if delete_buttons.count() > index:
+            # Use the raw Playwright locator (not self.click()) but still dismiss
+            # the consent overlay first: a leftover overlay can silently absorb
+            # this click without raising, leaving the row un-removed with no error.
+            self._dismiss_consent_overlay()
+            target_row = self.page.locator(self.CART_ROWS).nth(index)
             delete_buttons.nth(index).click()
-            # Wait for the item to be removed
-            self.page.wait_for_timeout(1000)
+            # Wait for this specific row to actually leave the DOM instead of
+            # a blind sleep — the AJAX removal can take longer than a fixed delay.
+            target_row.wait_for(state="detached", timeout=10000)
 
     def is_cart_empty(self) -> bool:
         """Check if the cart is empty."""

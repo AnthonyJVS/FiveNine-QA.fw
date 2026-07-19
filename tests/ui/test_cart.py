@@ -106,17 +106,21 @@ class TestCart:
         # Verify they are different products
         names = [item.name for item in items]
         logger.info(f"Cart items: {names}")
+        assert len(set(names)) == len(names), (
+            f"Cart items should be distinct products, got duplicates: {names}"
+        )
 
     @allure.story("Empty Cart")
     @allure.severity(allure.severity_level.MINOR)
     @pytest.mark.cart
     def test_empty_cart_message(self, cart_page):
-        """Test that an empty cart displays an appropriate message."""
-        if cart_page.is_cart_empty():
-            # Cart is already empty — verify message
-            assert cart_page.is_visible(cart_page.EMPTY_CART_TEXT), (
-                "Empty cart message should be visible"
-            )
-        else:
-            # Cart has items (from previous tests) — just verify page loaded
-            assert cart_page.verify_page_loaded(), "Cart page should load"
+        """Test that an empty cart displays an appropriate message.
+
+        Each test runs in a fresh browser context (see tests/conftest.py::context),
+        so there's no session cookie carrying a cart over from a previous test —
+        the cart is reliably empty here.
+        """
+        assert cart_page.is_cart_empty(), "Cart should be empty in a fresh browser context"
+        assert cart_page.is_visible(cart_page.EMPTY_CART_TEXT), (
+            "Empty cart message should be visible"
+        )

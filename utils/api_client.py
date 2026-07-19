@@ -22,6 +22,20 @@ from utils.logger import get_logger
 
 logger = get_logger("api_client")
 
+_SENSITIVE_KEYS = {"password", "token", "authorization"}
+
+
+def _redact(value: Any) -> Any:
+    """Return a copy of dict/list values with sensitive keys masked, for safe logging."""
+    if isinstance(value, dict):
+        return {
+            k: ("***REDACTED***" if k.lower() in _SENSITIVE_KEYS else _redact(v))
+            for k, v in value.items()
+        }
+    if isinstance(value, list):
+        return [_redact(item) for item in value]
+    return value
+
 
 class APIClient:
     """HTTP client with logging, session management, and assertion helpers."""
@@ -42,18 +56,18 @@ class APIClient:
         return f"{self.base_url.rstrip('/')}/{endpoint.lstrip('/')}"
 
     def _log_request(self, method: str, url: str, **kwargs):
-        """Log outgoing request details."""
+        """Log outgoing request details (sensitive fields redacted)."""
         logger.debug(
             f"REQUEST: {method.upper()} {url} | "
-            f"params={kwargs.get('params')} | "
-            f"data={kwargs.get('data')} | "
-            f"json={kwargs.get('json')}"
+            f"params={_redact(kwargs.get('params'))} | "
+            f"data={_redact(kwargs.get('data'))} | "
+            f"json={_redact(kwargs.get('json'))}"
         )
 
     def _log_response(self, response: requests.Response):
-        """Log incoming response details."""
+        """Log incoming response details (sensitive fields redacted)."""
         try:
-            body = response.json()
+            body = _redact(response.json())
             body_str = json.dumps(body, indent=2)[:500]
         except (json.JSONDecodeError, ValueError):
             body_str = response.text[:500]

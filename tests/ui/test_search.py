@@ -45,9 +45,18 @@ class TestSearch:
         product_names = products_page.get_product_names()
         assert len(product_names) > 0, "Should have search results"
 
-        # At least some results should contain the search term
-        # (being lenient since product names may vary)
+        # automationexercise.com's search matches against product name/category,
+        # so results for "tshirt" come back tagged as "Tshirt" or "T-Shirt" —
+        # check for the term with any internal punctuation stripped.
+        normalized_query = query.replace("-", "").lower()
+        matches = [
+            name for name in product_names
+            if normalized_query in name.replace("-", "").replace(" ", "").lower()
+        ]
         logger.info(f"Search results for '{query}': {product_names}")
+        assert matches, (
+            f"Expected at least one result containing '{query}', got: {product_names}"
+        )
 
     @allure.story("Empty Search Results")
     @allure.severity(allure.severity_level.NORMAL)
@@ -109,3 +118,4 @@ class TestSearch:
         )
         count = products_page.get_product_count()
         logger.info(f"Search '{query}': {count} results")
+        assert count > 0, f"Search for '{query}' should return at least one result"
